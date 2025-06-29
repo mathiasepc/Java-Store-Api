@@ -32,7 +32,11 @@ public class Profile {
     private Integer loyaltyPoints;
 
     @OneToOne(fetch = FetchType.LAZY)
+    // Profile owns the relation.
+    // You must have a foreign key if you want to own the relation
+    // Sets name from database foreign key
     @JoinColumn(name = "id")
+    // Use the same primary key from user
     @MapsId
     private User user;
 }

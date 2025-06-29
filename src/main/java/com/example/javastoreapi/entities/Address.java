@@ -31,6 +31,9 @@ public class Address {
     private String state;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    // Address owns the relation.
+    // You must have a foreign key if you want to own the relation
+    // Sets name from database foreign key
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;
