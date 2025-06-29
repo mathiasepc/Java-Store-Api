@@ -31,12 +31,12 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    // Sets who owns the relation. We get the value from Address
-    // Cascade.Persist if a table with a relation is saved, the relation
+    // Sets who own the relation. We get the value from Address
+    // Cascade.Persist if a table with a relation is saved, the related entity
     // will also be saved.
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     // instantiate addresses with default values.
-    // you will get a Nullpointer if Builder.Default is removed.
+    // you will get a NullPointer if Builder.Default is removed.
     @Builder.Default
     private List<Address> addresses = new ArrayList<>();
 

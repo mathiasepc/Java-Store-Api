@@ -28,8 +28,8 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
-    // Cascade.Persist if a table with a relation is saved, the relation
-    // will also be saved
+    // Cascade.Persist if a table with a relation is saved, the related entity
+    // will also be saved.
     @ManyToOne(cascade = CascadeType.PERSIST)
     // Product owns the relation.
     // You must have a foreign key if you want to own the relation
