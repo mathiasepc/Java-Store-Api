@@ -60,9 +60,9 @@ public class User {
     @JoinTable(
             // Name of the junction table.
             name = "wishlist",
-            // id that reference to the user tabel.
+            // id that reference to user tabel.
             joinColumns = @JoinColumn(name = "user_id"),
-            // Sets product id.
+            // id that reference to product table
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> favoriteProducts = new HashSet<>();
