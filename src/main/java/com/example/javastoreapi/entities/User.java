@@ -50,10 +50,6 @@ public class User {
         address.setUser(null);
     }
 
-    // Tells who own the relation. User is a variabel from profile.
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Profile profile;
-
     @ManyToMany
     // User owns the relation.
     // You can own a relation if you have a foreign key.
