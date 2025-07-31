@@ -1,6 +1,7 @@
 package com.example.javastoreapi.controllers;
 
 import com.example.javastoreapi.dtos.RegisterUserRequest;
+import com.example.javastoreapi.dtos.UpdateUserRequest;
 import com.example.javastoreapi.dtos.UserDto;
 import com.example.javastoreapi.mappers.UserMapper;
 import com.example.javastoreapi.repositories.UserRepository;
@@ -57,5 +58,21 @@ public class UserController {
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
 
         return ResponseEntity.created(uri).body(userDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable(name = "id") Long id,
+            @RequestBody UpdateUserRequest request
+            ) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        userMapper.update(request, user);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 }
