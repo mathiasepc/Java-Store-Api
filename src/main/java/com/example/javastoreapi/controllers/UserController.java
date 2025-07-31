@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public Iterable<UserDto> getAllUsers(
+    public List<UserDto> getAllUsers(
             @RequestParam(required = false, defaultValue = "", name = "sort") String sort
     ) {
 
