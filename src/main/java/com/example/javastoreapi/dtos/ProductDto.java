@@ -6,6 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
+// implies Getter, Setter, ToString and ToHash
 @Data
 public class ProductDto {
     private Long id;
