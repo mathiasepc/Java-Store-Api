@@ -6,6 +6,7 @@ import com.example.javastoreapi.dtos.UpdateUserRequest;
 import com.example.javastoreapi.dtos.UserDto;
 import com.example.javastoreapi.mappers.UserMapper;
 import com.example.javastoreapi.repositories.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -32,7 +34,6 @@ public class UserController {
         if (!Set.of("name", "email").contains(sort))
             sort = "name";
 
-        // findAll, can be used for sort
         return userRepository.findAll(Sort.by(sort))
                 .stream()
                 .map(userMapper::toDto)
@@ -50,9 +51,16 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(
-            @RequestBody RegisterUserRequest request,
+    // ? allows different returns
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
+        if(userRepository.existsByEmail(request.getEmail()))
+            // body is a Json object. Returns Map<K,V>
+            return ResponseEntity.badRequest().body(
+                    Map.of("email", "Email is already registered")
+            );
+
         var user = userMapper.toEntity(request);
         userRepository.save(user);
 
@@ -99,7 +107,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        if(!user.getPassword().equals(request.getOldPassword())) {
+        if (!user.getPassword().equals(request.getOldPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
